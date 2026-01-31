@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zift Tools Hub | Digital Utilities</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="index.css">
+
+
+
+
+
+ <style> 
+
+</style>
+
+
+    <style>
+        /* Video Card Özel Stilleri */
+        .work-card.video-card .work-top {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .work-card.video-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .work-card.video-card:hover .video-overlay {
+            opacity: 1;
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+        }
+
+        .play-button i {
+            font-size: 24px;
+            color: #667eea;
+            margin-left: 3px;
+        }
+
+        /* Video Modal */
+        .video-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .video-modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+        }
+
+        .video-modal-content video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .video-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .video-close:hover {
+            transform: scale(1.1);
+        }
+    </style>
+
+    <style>
+        /* YouTube modal ve stil */
+.yt-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  background: rgba(0,0,0,0.7);
+  padding: 20px;
+  transition: opacity .2s ease;
+}
+.yt-modal.active {
+  display: flex;
+  opacity: 1;
+}
+.yt-modal .yt-wrap {
+  position: relative;
+  width: min(1100px, 95%);
+  max-width: 1100px;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5);
+}
+/* responsive iframe fills container */
+.yt-modal iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+/* close button */
+.yt-modal .yt-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  z-index: 2;
+  font-size: 16px;
+  transition: background .15s;
+}
+.yt-modal .yt-close:hover { background: rgba(0,0,0,.75); }
+
+/* small tweak: keep play-button above poster */
+.video-card .play-button {
+  z-index: 3;
+  position: relative;
+}
+
+    </style>
+
+
+
+
+
+
+</head>
+ 
+ 
+   
+
+
+
+
+
+<body>
+
+    <div class="mobile-menu-overlay"></div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Zift Studio</div>
+            <ul class="nav-links">
+                <li><a href="#home" data-section="home">Ana Sayfa</a></li>
+                <li><a href="#services" data-section="services">Hizmetler</a></li>
+                <li><a href="#works" data-section="works">Portföy</a></li>
+                <li><a href="#studio" data-section="studio">Stüdyo</a></li>
+                <li><a href="#contact" data-section="contact">İletişim</a></li>
+                <li class="nav-divider" aria-hidden="true"></li>
+                <li><a href="developer.html">Developer</a></li>
+                <li><a href="create.html">Create</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="technozift.html">Haber</a></li>
+                <li><a href="tools.html">Tools</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" title="Tema Değiştir">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu" aria-label="Menüyü Aç">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+
+     <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <div class="footer-logo">Zift Studio</div>
+                <p>Yeni nesil yazılım ve tasarım stüdyosu. Ölçeklenebilir ürünler için tek adres.</p>
+                <div class="footer-socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://www.instagram.com/zift.studio?igsh=MWNlMXEwcXd1ZTBmZQ==" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4>Bağlantılar</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Ana Sayfa</a></li>
+                    <li><a href="proge.html">Projeler</a></li>
+                    <li><a href="planlama.html">Planlama</a></li>
+                    <li><a href="shop.html">Mağaza</a></li>
+                    <li><a href="calori.html">Calori Hesaplama</a></li>
+                    <li><a href="clock.html">Saat</a></li>
+                    <li><a href="ezan.html">Ezan Vakti</a></li>
+                    <li><a href="weather.html">Hava Durumu</a></li>
+                    <li><a href="gerisayım.html">Sınav Sayaçları</a></li>
+                    <li><a href="keyloger.html">Şifre Oluşturucu</a></li>
+                    <li><a href="parola.html">Parola</a></li>
+                    <li><a href="portfoy.html">Portföy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Servisler</h4>
+                <ul class="footer-links">
+                    <li>Web & Mobil</li>
+                    <li>3D & Oyun</li>
+                    <li>Danışmanlık</li>
+                    <li>Bakım & Destek</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 Zift Studio. Tüm hakları saklıdır.</span>
+            <span>info@ziftstudio.digital</span>
+        </div>
+    </footer>
+
+ 
+
+    <script src="script.js"></script>
+
+   <script>
+
+
+</script>
+
+
+
+
+    <script>
+        // Video hover and modal handling: support multiple .video-card elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hover play/pause for each video card
+            document.querySelectorAll('.video-card').forEach(function(card) {
+                const video = card.querySelector('video');
+                if (!video) return;
+                card.addEventListener('mouseenter', function() {
+                    video.play().catch(function(){});
+                });
+                card.addEventListener('mouseleave', function() {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+            });
+
+            // Modal handling: reuse one modal and set video src dynamically
+            const modal = document.getElementById('videoModal');
+            const modalVideo = document.getElementById('modalVideo');
+
+            document.querySelectorAll('.video-overlay').forEach(function(overlay) {
+                overlay.addEventListener('click', function() {
+                    const src = overlay.getAttribute('data-video');
+                    if (!src) return;
+                    // Replace source(s) inside modalVideo
+                    while (modalVideo.firstChild) modalVideo.removeChild(modalVideo.firstChild);
+                    const source = document.createElement('source');
+                    source.src = src;
+                    source.type = 'video/mp4';
+                    modalVideo.appendChild(source);
+                    modalVideo.load();
+                    modal.classList.add('active');
+                    modalVideo.play().catch(function(){});
+                });
+            });
+
+            // Close when clicking on modal background
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) closeVideoModal();
+                });
+            }
+        });
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const modalVideo = document.getElementById('modalVideo');
+            if (!modal || !modalVideo) return;
+            modal.classList.remove('active');
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+            // remove sources to free memory and stop network activity
+            while (modalVideo.firstChild) modalVideo.removeChild(modalVideo.firstChild);
+        }
+
+        // ESC tuşu ile modal kapatma
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeVideoModal();
+            }
+        });
+    </script>
+
+
+
+    <script>
+(function(){
+  // Helper: create modal once
+  function createModal() {
+    const modal = document.createElement('div');
+    modal.className = 'yt-modal';
+    modal.innerHTML = `
+      <div class="yt-wrap" role="dialog" aria-modal="true">
+        <button class="yt-close" aria-label="Kapat">✕</button>
+        <div class="yt-player"></div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    return modal;
+  }
+
+  const modal = createModal();
+  const playerContainer = modal.querySelector('.yt-player');
+  const closeBtn = modal.querySelector('.yt-close');
+
+  // Open modal with given embed src (must be embed URL like https://www.youtube.com/embed/ID)
+  function openModal(embedUrl) {
+    // ensure embedUrl exists
+    if(!embedUrl) return;
+    // append autoplay params if not present
+    const sep = embedUrl.includes('?') ? '&' : '?';
+    const src = embedUrl + sep + 'autoplay=1&rel=0&iv_load_policy=3';
+    // create iframe
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.src = src;
+    // clear and append
+    playerContainer.innerHTML = '';
+    playerContainer.appendChild(iframe);
+    modal.classList.add('active');
+    // trap focus optionally - simple focus to close button
+    closeBtn.focus();
+    // prevent body scroll
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    // remove iframe src to stop video
+    playerContainer.innerHTML = '';
+    // restore scroll
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+
+  // close events
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){
+    // click outside .yt-wrap closes
+    if(e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+
+  // Setup click handlers for every .video-overlay
+  document.querySelectorAll('.video-overlay').forEach(function(overlay){
+    overlay.addEventListener('click', function(e){
+      // prefer data-youtube; if it's a normal watch URL (contains 'watch?v=') convert to embed
+      let yt = overlay.getAttribute('data-youtube') || '';
+      if(yt.includes('watch?v=')) {
+        // convert watch link to embed
+        try {
+          const url = new URL(yt);
+          const id = url.searchParams.get('v');
+          if(id) yt = 'https://www.youtube.com/embed/' + id;
+        } catch(err) { /* ignore */ }
+      }
+      // if a full share url with youtu.be format = convert
+      if(yt.includes('youtu.be/')) {
+        try {
+          const url = new URL(yt);
+          const id = url.pathname.slice(1);
+          if(id) yt = 'https://www.youtube.com/embed/' + id;
+        } catch(err) {}
+      }
+      // fallback: if no data-youtube, try build from data-video using a possible attribute data-youtube-thumb? (not needed)
+      // Pause underlying <video> if exists inside same card
+      const card = overlay.closest('.video-card');
+      if(card){
+        const vid = card.querySelector('video');
+        if(vid && !vid.paused) {
+          try { vid.pause(); } catch(e){}
+        }
+      }
+      // open modal
+      if(yt) openModal(yt);
+      else {
+        // if no youtube provided, but data-video exists, optionally open local video in modal (native)
+        const local = overlay.getAttribute('data-video');
+        if(local){
+          // show local <video> element in modal
+          const el = document.createElement('video');
+          el.src = local;
+          el.setAttribute('controls','');
+          el.setAttribute('autoplay','');
+          el.style.width = '100%';
+          el.style.height = '100%';
+          playerContainer.innerHTML = '';
+          playerContainer.appendChild(el);
+          modal.classList.add('active');
+          document.documentElement.style.overflow = 'hidden';
+          document.body.style.overflow = 'hidden';
+        }
+      }
+    });
+  });
+
+  // Optional: set poster from YouTube thumbnail if video has no poster and data-youtube exists
+  document.querySelectorAll('.work-card.video-card').forEach(function(card){
+    const vid = card.querySelector('video');
+    const overlay = card.querySelector('.video-overlay');
+    if(vid && overlay && (!vid.getAttribute('poster') || vid.getAttribute('poster').trim() === '')) {
+      const yt = overlay.getAttribute('data-youtube') || '';
+      let id = '';
+      if(yt.includes('embed/')) {
+        id = yt.split('embed/')[1].split('?')[0];
+      } else if(yt.includes('watch?v=')) {
+        try { id = (new URL(yt)).searchParams.get('v'); } catch(e){}
+      } else if(yt.includes('youtu.be/')) {
+        try { id = new URL(yt).pathname.slice(1); } catch(e){}
+      }
+      if(id) {
+        const thumb = 'https://img.youtube.com/vi/' + id + '/maxresdefault.jpg';
+        // set as poster (does not check if exists on server)
+        vid.setAttribute('poster', thumb);
+      }
+    }
+  });
+
+})();
+    </script>
+
+
+
+
+
+
+
+
+</body>
+</html>
